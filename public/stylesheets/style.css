@@ -1,0 +1,215 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.logo-fegasa {
+  width: 200px;
+  height: auto;
+}
+
+.ribbon {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  background-color: #2196f3;
+  padding: 20px;
+  color: white;
+  height: 50vh;
+  margin-bottom: 2%;
+}
+
+.ribbon h3 {
+  text-align: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  margin-top: -20vh;
+  margin-bottom: 40vh;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.demo-footer {
+  padding-left: 40px;
+}
+
+.demo-footer .mdl-mini-footer--link-list a {
+  font-size: 13px;
+}
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+#assurances.mdl-data-tabledynamic {
+  width: fit-content;
+}
+
+.mdl-data-tabledynamic {
+  overflow: visible !important;
+}
+
+.mdl-data-tabledynamic__title {
+  width: 100%;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #000;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: stretch;
+  -ms-flex-pack: stretch;
+  justify-content: stretch;
+  line-height: normal;
+  -webkit-perspective-origin: 165px 56px;
+  perspective-origin: 165px 56px;
+  -webkit-transform-origin: 165px 56px;
+  transform-origin: 165px 56px;
+  box-sizing: border-box;
+  display: block;
+  padding-left: 25px;
+  padding-bottom: 10px;
+  padding-top: 30px;
+}
+
+.mdl-data-tabledynamic {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  font-size: 16px;
+  font-weight: 400;
+  overflow: hidden;
+  width: 330px;
+  z-index: 1;
+  position: relative;
+  background: #fff;
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+
+.mdl-data-tabledynamic {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  font-size: 16px;
+  font-weight: 400;
+  overflow: hidden;
+  width: 330px;
+  z-index: 1;
+  position: relative;
+  background: #fff;
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+
+.mdl-data-tabledynamic__title-text,
+.h2.mdl-data-tabledynamic__title-text {
+  float: left;
+  font-weight: 400 !important;
+}
+
+.mdl-grid {
+  align-items: center;
+  justify-content: center;
+}
+
+.mdl-data-tabledynamic__title-text {
+  -webkit-align-self: flex-end;
+  -ms-flex-item-align: end;
+  align-self: flex-end;
+  color: inherit;
+  display: block;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: normal;
+  overflow: hidden;
+  -webkit-transform-origin: 149px 48px;
+  transform-origin: 149px 48px;
+  margin: 0;
+}
+
+.mdl-data-tabledynamic__content {
+  overflow: visible !important;
+  color: rgba(0, 0, 0, .54);
+  font-size: 1rem;
+  line-height: 18px;
+  padding: 0;
+  width: 100%;
+}
+
+.mdl-data-tabledynamic__actions {
+  float: right;
+  margin-right: 12px;
+}
+
+.mdl-data-tabledynamic__content .mdl-data-table {
+  width: 100%;
+  border-left: 0;
+  border-right: 0;
+}
+
+.mdl-dialog {
+  width: 400px;
+}
+
+.mdl-dialog__content {
+  display: grid;
+  grid-template-columns: 100%;
+  justify-content: center;
+}
+
+footer {
+  margin-top: 80px;
+}
+
+.mdl-dialog__title{
+    font-size: 16px;
+}
+
+@media only screen and (max-width: 860px) {
+  h5 {
+    display: none;
+  }
+
+  .responsive-rm {
+    display: none;
+  }
+
+  .mdl-data-table {
+    table-layout:fixed;
+    width:100%; 
+  }
+  
+  td, th {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+  }
+  
+}
