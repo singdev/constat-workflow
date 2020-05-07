@@ -1,0 +1,41 @@
+doctype html
+html
+  head
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Constat à l'amiable
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=fr")
+    link(rel='stylesheet', href='/stylesheets/constat.css')
+
+  body
+    - var str = JSON.stringify(data);
+    - var galleries = data.constatAmiable.galleryURLs;
+    - var croquis = data.constatAmiable.croquisURLs;
+    - var signatures = data.constatAmiable.signatureURLs;
+    - var numero = "Constat N°" + data.constatAmiable.numero;
+    - var date = new Date(data.constatAmiable.date_accident);
+    - var link = "http://192.168.43.2:2467/constat/download/" + data.constatAmiable.numero;
+    - var logo = "/images/logo-assurances/" + assurance + "_logo.png";
+    
+    header
+      img(src=logo alt="Logo de l'assurance" style="width: 100px; height:auto")
+      p #{numero}
+
+    main
+      .top
+        a.button(href=link target="blank" class="btn") Télécharger le document
+
+      .middle
+        .gallery
+          h1 Photo de l'accident
+          .container
+            each gallery in galleries
+              a(href=gallery target="blank")
+                img(src=gallery, alt="Photo de l'accident")
+
+        .croquis
+          h1 Croquis de l'accident
+          .container
+            each croqui in croquis
+              a(href=croqui target="blank")
+                img(src=croqui, alt="Croquis de l'accident") 
+    

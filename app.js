@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var assuranceRouter = require('./routes/assurance');
+var constatRouter = require('./routes/constat');
 
 
 var MongoDB = require('./src/database/MongoDB');
@@ -31,6 +32,7 @@ app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/users', usersRouter);
 app.use('/assurances', assuranceRouter);
+app.use('/constats', constatRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
