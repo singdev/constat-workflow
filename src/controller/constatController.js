@@ -64,13 +64,16 @@ module.exports = {
 
     async getConstatState(req, res, next) {
         const constat = await Constat.findOne({numero: req.params.numero});
-        res.send(constat.isRead);
+        if(constat){
+		res.send(constat.isRead);
+	} else {
+		res.sendStatus(404);
+	}
     },
 
     async getConstatPage(req, res, next) {
         //render de quelque chose qui prend en paramètre un constat
         const numero = req.auth.credentials.numero;
-        console.log(numero);
         const response = await axios.get(`http://${Address}:2469/registry/${numero}`);
         if(response.status == 200){
             res.render('constat', { data: response.data, assurance: req.auth.credentials.assurance } );

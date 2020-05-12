@@ -27,7 +27,7 @@ div(class="mdl-layout mdl-js-layout mdl-layout--fixed-header")
                             each val in assurances
                                 - var date = val.lastUpdate; 
                                 - var update = (date.getDate() < 10 ? '0' : '') + date.getDate() + "/" + (date.getMonth() + 1 < 10 ? '0' : '') + (date.getMonth() + 1) + "/" + date.getFullYear();
-                                - var logo = "/images/logo-assurances/" + val.logo;
+                                - var logo = allAssurance.find((value) => value.smallName == val.smallName).logoUrl;
                                 - var state = val.isActive ? "Activé" : "Désactivé";
                                 tr
                                     td(title=update class="mdl-data-table__cell--non-numeric") #{val.name} 
@@ -53,9 +53,10 @@ dialog(class="mdl-dialog" id="newassurance-dialog")
         
             div(id="tf-state" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label")
                 select(class="mdl-textfield__input" type="text" name="smallName" id="smallName")
-                    option(value="axa:Axa") Axa
-                    option(value="nsia:Nsia") Nsia
-                    option(value="ogar:Ogar") Ogar
+                    each ass in allAssurance
+                        - var value = ass.smallName + ":" + ass.name;
+                        - var name = ass.name;
+                        option(value=value) #{name}
                 label(class="mdl-textfield__label" for="smallName") Maison d'assurance
 
             div(class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" )

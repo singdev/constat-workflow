@@ -1,5 +1,4 @@
 const bcrypt = require('bcryptjs');
-const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const Memory = require('../database/Memory');
 const Assurance = require('../models/AssuranceModel');
@@ -40,7 +39,9 @@ module.exports = {
                   const fullname2 = b.name;
                   return fullname1.localeCompare(fullname2);
                 })
-                res.render('index', { title: "FEGASA - Constat à l'amiable", assurances });
+                let allAssurance = Memory.assurances;
+                res.redirect('/');
+                res.render('index', { title: "FEGASA - Constat à l'amiable", assurances, allAssurance });
             } else {
                 res.status(403)
                 res.redirect('/');

@@ -1,4 +1,5 @@
 const Assurance = require('../models/AssuranceModel');
+const Memory = require('../database/Memory');
 
 module.exports = {
 
@@ -17,8 +18,9 @@ module.exports = {
                 const fullname2 = b.name;
                 return fullname1.localeCompare(fullname2);
             })
+            let allAssurance = Memory.assurances;
             res.redirect('/');
-            res.render('index', { title: "FEGASA - Constat à l'amiable", assurances});
+            res.render('index', { title: "FEGASA - Constat à l'amiable", assurances, allAssurance});
         } catch (err) {
             console.log(err);
             res.send(500);
@@ -28,6 +30,11 @@ module.exports = {
     async getAllAssurance(req, res, next) {
         const assurances = await Assurance.find({});
         res.send(assurances);
+    },
+
+    async getAssurancesInMemory(req, res, next){
+        const assurances = Memory.assurances;
+        res.send({ assurances });
     },
 
     async updateAssurance(req, res, next) {
@@ -43,7 +50,8 @@ module.exports = {
             const fullname2 = b.name;
             return fullname1.localeCompare(fullname2);
         })
+        let allAssurance = Memory.assurances;
         res.redirect('/');
-        res.render('index', { title: "FEGASA - Constat à l'amiable", assurances});
+        res.render('index', { title: "FEGASA - Constat à l'amiable", assurances, allAssurance});
     }
 }

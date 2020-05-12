@@ -10,5 +10,6 @@ router.post('/', authController.verifyAccessToken, assuranceController.createAss
 
 router.post('/:id', authController.verifyAccessToken, assuranceController.updateAssurance);
 
+router.get('/memory', assuranceController.getAssurancesInMemory);
 
 module.exports = router;
