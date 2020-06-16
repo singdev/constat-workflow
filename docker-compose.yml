@@ -6,8 +6,8 @@ services:
         volumes: 
             - /home/data:/data/db
         ports: 
-            - "27017:27017"
-    web:
+            - "27018:27017"
+    webapp:
         build: .
         ports: 
             - "2471:8080"
