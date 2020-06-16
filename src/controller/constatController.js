@@ -4,23 +4,20 @@ const nodemailer = require('nodemailer');
 const axios = require('axios');
 const ip = require('ip');
 
-const Address = ip.address();
+const Address = process.env.REGISTRY_HOST || ip.address();
 
-async function main(email, content) {
-    
+async function sendEmail(email, content) {
+
     let transporter = nodemailer.createTransport({
-        host: 'SMTP.office365.com',
-        port: 587,
-        secure: false,
-        requireTLS: false,
+        service: 'gmail',
         auth: {
-            user: "orpheenve@hotmail.com", 
-            pass: "2jptard#O" 
+            user: "nho.notification@gmail.com",
+            pass: "ABClotus"
         }
     });
 
     let info = await transporter.sendMail({
-        from: 'orpheenve@hotmail.com', 
+        from: 'nho.notification@gmail.com',
         to: email,
         subject: "Nouveau Constat à l'amiable GA",
         html: content
@@ -38,8 +35,10 @@ async function main(email, content) {
 module.exports = {
 
     async registerConstatAndNotify(req, res, next) {
-        const assurance = await Assurance.findOne({ smallName: req.body.assurance});
-        if(assurance && assurance.isActive){
+        console.log("Register and notify assurance")
+        const assurance = await Assurance.findOne({ smallName: req.body.assurance });
+        if (assurance && assurance.isActive) {
+            console.log("Assurance is active");
             const constat = new Constat(req.body);
             const newConstat = await constat.save();
             const constatUrl = `http://${Address}:2471/constats/${req.token}`;
@@ -49,7 +48,7 @@ module.exports = {
                 <html>
                 <p>
                     Un de vos assuré vient de transmettre un constat à l'amiable via notre système. <br>
-                    Vous pouvez accéder à toute les informations consernant le sinistre en cliquant sur le lien ci-dessous.
+                    Vous pouvez accéder à toutes les informations consernant le sinistre en cliquant sur le lien ci-dessous.
                 </p>
                 <br>
                 <br>
@@ -57,26 +56,36 @@ module.exports = {
                 </html>
             `;
             console.log(email);
-            await main(email, content);
+            await sendEmail(email, content);
             res.send(constatUrl);
+        } else {
+            res.sendStatus(404);
         }
     },
 
     async getConstatState(req, res, next) {
-        const constat = await Constat.findOne({numero: req.params.numero});
-        if(constat){
-		res.send(constat.isRead);
-	} else {
-		res.sendStatus(404);
-	}
+        const constat = await Constat.findOne({ numero: req.params.numero });
+        if (constat) {
+            res.send(constat.isRead);
+        } else {
+            res.sendStatus(404);
+        }
     },
 
     async getConstatPage(req, res, next) {
-        //render de quelque chose qui prend en paramètre un constat
         const numero = req.auth.credentials.numero;
+        //Changer l'etat du constat
+        try {
+            const constat = await Constat.findOne({ numero });
+            constat.isRead = true;
+            const res = await constat.save();
+        } catch (err) {
+            console.log(err);
+        }
+        //render de quelque chose qui prend en paramètre un constat
         const response = await axios.get(`http://${Address}:2469/registry/${numero}`);
-        if(response.status == 200){
-            res.render('constat', { data: response.data, assurance: req.auth.credentials.assurance } );
+        if (response.status == 200) {
+            res.render('constat', { data: response.data, assurance: req.auth.credentials.assurance, registryHost: Address });
         } else {
             res.render('constat', { error: true, });
         }

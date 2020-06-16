@@ -1,0 +1,15 @@
+version: '2'
+services:
+    constatassurancedb:
+        image: mongo
+        container_name: constatassurancedb
+        volumes: 
+            - /home/data:/data/db
+        ports: 
+            - "27017:27017"
+    web:
+        build: .
+        ports: 
+            - "2471:8080"
+        links: 
+            - constatassurancedb

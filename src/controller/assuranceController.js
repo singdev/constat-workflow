@@ -20,7 +20,7 @@ module.exports = {
             })
             let allAssurance = Memory.assurances;
             res.redirect('/');
-            res.render('index', { title: "FEGASA - Constat à l'amiable", assurances, allAssurance});
+            res.render('index', { title: "FEGASA - Constat à l'amiable", assurances, allAssurance });
         } catch (err) {
             console.log(err);
             res.send(500);
@@ -28,30 +28,44 @@ module.exports = {
     },
 
     async getAllAssurance(req, res, next) {
-        const assurances = await Assurance.find({});
-        res.send(assurances);
+        try {
+            const assurances = await Assurance.find({});
+            res.send(assurances);
+        } catch (err) {
+            console.log(err);
+            res.sendStatus(500);
+        }
     },
 
-    async getAssurancesInMemory(req, res, next){
-        const assurances = Memory.assurances;
-        res.send({ assurances });
+    async getAssurancesInMemory(req, res, next) {
+        try {
+            const assurances = Memory.assurances;
+            res.send({ assurances });
+        } catch (err) {
+            res.sendStatus(500);
+        }
+
     },
 
     async updateAssurance(req, res, next) {
-        if(!req.params.id){
+        if (!req.params.id) {
             res.sendStatus(403);
             return;
         }
         const id = req.params.id
-        const assurance = await Assurance.findOneAndUpdate({ _id: id }, req.body);
-        let assurances = await Assurance.find({});
-        assurances = assurances.sort((a, b) => {
-            const fullname1 = a.name;
-            const fullname2 = b.name;
-            return fullname1.localeCompare(fullname2);
-        })
-        let allAssurance = Memory.assurances;
-        res.redirect('/');
-        res.render('index', { title: "FEGASA - Constat à l'amiable", assurances, allAssurance});
+        try {
+            const assurance = await Assurance.findOneAndUpdate({ _id: id }, req.body);
+            let assurances = await Assurance.find({});
+            assurances = assurances.sort((a, b) => {
+                const fullname1 = a.name;
+                const fullname2 = b.name;
+                return fullname1.localeCompare(fullname2);
+            })
+            let allAssurance = Memory.assurances;
+            res.redirect('/');
+            res.render('index', { title: "FEGASA - Constat à l'amiable", assurances, allAssurance });
+        }catch(err){
+            res.sendStatus(500);
+        }
     }
 }

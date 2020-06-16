@@ -13,7 +13,9 @@ var constatRouter = require('./routes/constat');
 
 var MongoDB = require('./src/database/MongoDB');
 
-MongoDB('constat-amiable-asurance');
+const dbName = process.env.DB_NAME || 'constat-amiable-asurance'
+
+MongoDB(dbName);
 
 var app = express();
 
