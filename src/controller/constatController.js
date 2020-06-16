@@ -5,6 +5,9 @@ const axios = require('axios');
 const ip = require('ip');
 
 const Address = process.env.REGISTRY_HOST || ip.address();
+const Domain = process.env.DOMAIN || Address;
+const PORT = process.env.PORT || 2471;
+
 
 async function sendEmail(email, content) {
 
@@ -39,9 +42,8 @@ module.exports = {
         const assurance = await Assurance.findOne({ smallName: req.body.assurance });
         if (assurance && assurance.isActive) {
             console.log("Assurance is active");
-            const constat = new Constat(req.body);
             const newConstat = await constat.save();
-            const constatUrl = `http://${Address}:2471/constats/${req.token}`;
+            const constatUrl = `http://${Domain}:${PORT}/constats/${req.token}`;
             //Envoyer par email
             const email = assurance.email;
             const content = `

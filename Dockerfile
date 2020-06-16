@@ -4,6 +4,7 @@ ENV PORT "8080"
 ENV MONGODB_HOST "constatassurancedb"
 ENV DB_NAME "constat-workflow-dev"
 ENV REGISTRY_HOST "constat-srv.orpheenve.xyz"
+ENV DOMAIN "constat-assurance.orpheenve.xyz"
 
 RUN mkdir uploads
 
