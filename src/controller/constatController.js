@@ -4,10 +4,9 @@ const nodemailer = require('nodemailer');
 const axios = require('axios');
 const ip = require('ip');
 
-const Address = process.env.REGISTRY_HOST || ip.address();
-const Domain = process.env.DOMAIN || Address;
 const PORT = process.env.PORT || 2471;
-
+const Address = process.env.REGISTRY_HOST || ip.address() + ":" + PORT;
+const Domain = process.env.DOMAIN || Address;
 
 async function sendEmail(email, content) {
 
@@ -38,12 +37,10 @@ async function sendEmail(email, content) {
 module.exports = {
 
     async registerConstatAndNotify(req, res, next) {
-        console.log("Register and notify assurance")
         const assurance = await Assurance.findOne({ smallName: req.body.assurance });
         if (assurance && assurance.isActive) {
-            console.log("Assurance is active");
             const newConstat = await constat.save();
-            const constatUrl = `http://${Domain}:${PORT}/constats/${req.token}`;
+            const constatUrl = `http://${Domain}/constats/${req.token}`;
             //Envoyer par email
             const email = assurance.email;
             const content = `
@@ -85,7 +82,7 @@ module.exports = {
             console.log(err);
         }
         //render de quelque chose qui prend en paramètre un constat
-        const response = await axios.get(`http://${Address}:2469/registry/${numero}`);
+        const response = await axios.get(`http://${Address}/registry/${numero}`);
         if (response.status == 200) {
             res.render('constat', { data: response.data, assurance: req.auth.credentials.assurance, registryHost: Address });
         } else {

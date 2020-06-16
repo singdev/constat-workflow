@@ -12,8 +12,6 @@ module.exports = {
         const username = req.body.username;
         const password = req.body.password;
 
-        console.log(username + " " + password);
-
         if (username == Memory.root.username &&
             password == Memory.root.passowrd) {
             const accessToken = await jwt.sign({ user: Memory.root }, JWT_SECRET);
