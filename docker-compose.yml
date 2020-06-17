@@ -1,0 +1,15 @@
+version: '2'
+services:
+    constatassurancedb:
+        image: mongo
+        container_name: constatassurancedb
+        volumes: 
+            - /home/constat-workflow.d:/data/db
+        ports: 
+            - "27018:27017"
+    webapp:
+        build: .
+        ports: 
+            - "2471:8080"
+        links: 
+            - constatassurancedb

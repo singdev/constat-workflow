@@ -1,0 +1,93 @@
+div(class="mdl-layout mdl-js-layout mdl-layout--fixed-header")
+    header(class="mdl-layout__header")
+        div(class="mdl-layout__header-row")
+            img(src="/images/fegasa.png", alt="Logo de la fegasa" style="height: 80%; width: auto; padding-right: 20px")
+            h5 Enregistrement des Maisons d'assurance
+            div(class="mdl-layout-spacer")
+            a(href="/users/auth/logout" class="mdl-button mdl-js-button mdl-button--icon")
+                i(class="material-icons") logout
+    main(class="mdl-layout__content")
+        div(class="mdl-grid" style="margin-top: 100px; width: 100%;")
+            div(id="assurances" class="mdl-data-tabledynamic mdl-shadow--2dp")
+                div(class="mdl-data-tabledynamic__title") 
+                    h2(class="mdl-data-tabledynamic__title-text") Maison d'assurances
+                    div(class="mdl-data-tabledynamic__actions")
+                        a(class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect add-row" id="add-assurance-button") Ajouter assurance
+
+                div(class="mdl-data-tabledynamic__content")
+                    table(class="mdl-data-table mdl-js-data-table mdl-shadow--2dp")
+                        thead
+                            tr
+                                th(class="mdl-data-table__cell--non-numeric") Nom
+                                th(class="responsive-rm") Logo
+                                th Adresse Email
+                                th Abonnement
+                                th Actions
+                        tbody
+                            each val in assurances
+                                - var date = val.lastUpdate; 
+                                - var update = (date.getDate() < 10 ? '0' : '') + date.getDate() + "/" + (date.getMonth() + 1 < 10 ? '0' : '') + (date.getMonth() + 1) + "/" + date.getFullYear();
+                                - var logo = allAssurance.find((value) => value.smallName == val.smallName).logoUrl;
+                                - var state = val.isActive ? "Activé" : "Désactivé";
+                                tr
+                                    td(title=update class="mdl-data-table__cell--non-numeric") #{val.name} 
+                                    td(title=update class="responsive-rm")
+                                        img(src=logo style="width:100px; height:auto;" alt="Logo de la maison d'assurance")
+                                    td #{val.email}
+                                    td(title=update)=state
+                                    td
+                                        a(class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect add-row" onclick="showUpdateassuranceModal('"+ JSON.stringify(val).replace("'", "\\'") +"')")
+                                            i(class="material-icons") edit
+
+        footer(class="demo-footer mdl-mini-footer")
+            div(class="mdl-mini-footer--left-section")
+                ul(class="mdl-mini-footer--link-list")
+                    li 
+                        a(href="https://www.sing.ga") Développé par SING SA
+
+
+dialog(class="mdl-dialog" id="newassurance-dialog")
+    h4(class="mdl-dialog__title") Ajouter une maison d'assurance
+    form(action="/assurances", method="post")
+        div(class="mdl-dialog__content")
+        
+            div(id="tf-state" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label")
+                select(class="mdl-textfield__input" type="text" name="smallName" id="smallName")
+                    each ass in allAssurance
+                        - var value = ass.smallName + ":" + ass.name;
+                        - var name = ass.name;
+                        option(value=value) #{name}
+                label(class="mdl-textfield__label" for="smallName") Maison d'assurance
+
+            div(class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" )
+                input(class="mdl-textfield__input" type="email" name="email" id="email")
+                label(class="mdl-textfield__label" for="email") Adresse Email
+            
+
+        div(class="mdl-dialog__actions")
+            button(type="submit" class="mdl-button create") Créer
+            button(type="button" class="mdl-button close") Annuler
+
+dialog(class="mdl-dialog" id="updateassurance-dialog")
+    h4(class="mdl-dialog__title") Modifier les informations
+    form(action="/assurances", class="update-form" method="post")
+        div(class="mdl-dialog__content")
+            - var lastUpdate = (new Date()).toString()
+            input(type="hidden", name="lastUpdate" id="lastUpdate" value=lastUpdate)
+            img(src="", id="update-logo" style="width:100px; text-align:center; height:auto;" alt="Logo de l'assurance")
+            div(id="tf-isActive" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label")
+                select(class="mdl-textfield__input" type="text" name="isActive" id="isActive")
+                    option(value="true") Activé
+                    option(value="false") Désactivé
+                label(class="mdl-textfield__label" for="state") Abonnement
+        
+            div(id="tf-email" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label")
+                input(class="mdl-textfield__input" type="email" name="email" id="email")
+                label(class="mdl-textfield__label" for="t-email") Adresse Email
+
+        div(class="mdl-dialog__actions")
+            button(type="submit" class="mdl-button update") Mettre à jour
+            button(type="button" class="mdl-button close") Annuler
+                      
+script(src="/javascripts/app.js")
+script(src="/module/index.js" type="module")
